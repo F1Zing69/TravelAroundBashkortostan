@@ -1,0 +1,431 @@
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Контейнер для первой части (1080px) */
+        .hero-section {
+            position: relative;
+            height: 1080px;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        /* Фон первой части с размытием */
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("fon1.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(5px);
+            z-index: 1;
+        }
+        
+        /* Затемнение для лучшей читаемости текста */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 2;
+        }
+        
+        /* Контейнер для контента в первой части */
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Вторая часть - белый фон без переходов */
+        .content-section {
+            background-color: rgb(255, 255, 255);
+            min-height: 100vh;
+            margin-top: 0;
+        }
+        
+        /* Контейнер для карточек */
+        .cards-container {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 20px;
+            gap: 75px;
+            margin-left: 200px;
+           
+         
+        }
+
+        .header {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            margin: 0;
+            padding: 10px;
+            color: #333;
+        }
+        
+        /* Дополнительный контент в первой секции (пример) */
+        .hero-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .hero-text h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero-text p {
+            font-size: 1.2em;
+            max-width: 800px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Стиль для второй секции */
+        .content-section h2 {
+            text-align: center;
+            padding: 40px 20px 20px;
+            color: #333;
+        }
+        
+        .content-section p {
+            padding: 0 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .card {
+            width: 300px;
+            min-height: 450px;
+            box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            transition: 0.3s;
+            position: relative;
+            background-color: white;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .card:hover {
+            box-shadow: 4px 8px 16px rgba(255, 102, 51, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .card__top {
+            flex: 0 0 200px; /* Фиксированная высота для изображения */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card__image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .card__image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.3s;
+        }
+
+        .card__image:hover img {
+            transform: scale(1.05);
+        }
+
+        .card__label {
+            padding: 6px 12px;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #ff6633, #ff4500);
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 18px;
+            color: #fff;
+            z-index: 2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .card__bottom {
+            display: flex;
+            flex-direction: column;
+            flex: 1 0 auto;
+            padding: 20px;
+        }
+
+        .card__prices {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .card__price::after {
+            content: "₽";
+            margin-left: 4px;
+            position: relative;
+        }
+
+        .card__price--discount {
+            font-weight: 700;
+            font-size: 22px;
+            color: #ff6633;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card__price--discount::before {
+            content: "Со скидкой";
+            font-weight: 400;
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .card__price--common {
+            font-weight: 400;
+            font-size: 18px;
+            color: #606060;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            text-decoration: line-through;
+        }
+
+        .card__price--common::before {
+            content: "Обычная";
+            font-weight: 400;
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 5px;
+            text-decoration: none;
+        }
+
+        .card__title {
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 1.4;
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .card__title:hover {
+            color: #ff6633;
+        }
+
+        .card__description {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .card__add {
+            display: block;
+            width: 100%;
+            font-weight: 600;
+            font-size: 18px;
+            color: #fff;
+            padding: 12px;
+            text-align: center;
+            background: linear-gradient(135deg, #70c05b, #4caf50);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: auto;
+            box-shadow: 0 3px 5px rgba(112, 192, 91, 0.3);
+        }
+
+        .card__add:hover {
+            background: linear-gradient(135deg, #ff6633, #ff4500);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(255, 102, 51, 0.4);
+        }
+        
+        /* Стили для разных карточек */
+        .card:nth-child(2) .card__label {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+        }
+        
+        .card:nth-child(3) .card__label {
+            background: linear-gradient(135deg, #2196f3, #0d47a1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-section">
+        <div class="hero-background"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="header">
+                <h1>Отличные места в Башкортостане</h1>
+            </div>
+            <div class="hero-text">
+                <h2>Добро пожаловать в Башкортостан!</h2>
+                <p>Край удивительной природы, горных хребтов, чистых рек и озер. Здесь вы найдете уникальные природные достопримечательности и богатую культуру.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Вторая часть - белый фон -->
+    <div class="content-section">
+        <h2>Популярные достопримечательности</h2>
+        <p>Башкортостан известен своими природными красотами. Здесь находятся знаменитые горные массивы, пещеры, водопады и заповедники. Каждое место имеет свою уникальную историю и привлекает туристов со всей России.</p>
+        <p>Республика предлагает множество возможностей для активного отдыха: пешие походы, сплавы по рекам, горнолыжные курорты и многое другое.</p>
+        
+        <!-- Контейнер для карточек -->
+        <div class="cards-container">
+            <!-- Карточка 1 -->
+            <div class="card">
+                <div class="card__top">
+                    <a href="#" class="card__image">
+                        <img
+                            src="scale_1200.jpg"
+                            alt="Шульган-Таш"
+                        />
+                    </a>
+                    <div class="card__label">-35%</div>
+                </div>
+                <div class="card__bottom">
+                    <div class="card__prices">
+                        <div class="card__price card__price--discount">9 100</div>
+                        <div class="card__price card__price--common">14 000</div>
+                    </div>
+                    <a href="#" class="card__title">
+                        Гора Шульган-Таш
+                    </a>
+                    <div class="card__description">
+                        Легендарная пещера с древними наскальными рисунками, расположенная в Бурзянском районе Башкортостана.
+                    </div>
+                    <button class="card__add">Посетить</button>
+                </div>
+            </div>
+            
+            <!-- Карточка 2 -->
+            <div class="card">
+                <div class="card__top">
+                    <a href="#" class="card__image">
+                        <img
+                            src="scale_1200 (1).jpg"
+                            alt="САМАЯ ДЛИННАЯ Сумган-Кутук"
+                        />
+                    </a>
+                    <div class="card__label">-25%</div>
+                </div>
+                <div class="card__bottom">
+                    <div class="card__prices">
+                        <div class="card__price card__price--discount">12 500</div>
+                        <div class="card__price card__price--common">16 500</div>
+                    </div>
+                    <a href="#" class="card__title">
+                        САМАЯ ДЛИННАЯ Сумган-Кутук
+                    </a>
+                    <div class="card__description">
+                        Протяженность этой пещеры - 9860 метров. Находится в Мелеузовском районе, в 23 км от села Нугуш. Глубина пещеры – 134 м.
+                    </div>
+                    <button class="card__add">Посетить</button>
+                </div>
+            </div>
+            
+            <!-- Карточка 3 -->
+            <div class="card">
+                <div class="card__top">
+                    <a href="#" class="card__image">
+                        <img
+                            src="scale_1200 (2).jpg"
+                            alt="ЦАРСТВО ЛЬДА Аскинская пещера"
+                        />
+                    </a>
+                    <div class="card__label">-20%</div>
+                </div>
+                <div class="card__bottom">
+                    <div class="card__prices">
+                        <div class="card__price card__price--discount">10 800</div>
+                        <div class="card__price card__price--common">13 500</div>
+                    </div>
+                    <a href="#" class="card__title">
+                        ЦАРСТВО ЛЬДА Аскинская пещера
+                    </a>
+                    <div class="card__description">
+                        Находится в Архангельском районе, в двух километрах от деревни Солонцы (Аскино). В пещере огромный зал со сводчатыми стенами и потолком, подземелье хранит тысячелетний лед.
+                    </div>
+                    <button class="card__add">Посетить</button>
+                </div>
+            </div>
+             <div class="card">
+                <div class="card__top">
+                    <a href="#" class="card__image">
+                        <img
+                            src="scale_1200 (3).jpg"
+                            alt="Озеро Аслыкуль"
+                        />
+                    </a>
+                    <div class="card__label">-35%</div>
+                </div>
+                <div class="card__bottom">
+                    <div class="card__prices">
+                        <div class="card__price card__price--discount">14 000</div>
+                        <div class="card__price card__price--common">20 000</div>
+                    </div>
+                    <a href="#" class="card__title">
+                        Озеро Аслыкуль
+                    </a>
+                    <div class="card__description">
+                        Считается самым крупным озером в регионе. Длина его составляет 8 км, а ширина , где-то 6 км. Его максимальная глубина 8м не больше. По-другому это озеро башкиры называют горьким.
+                    </div>
+                    <button class="card__add">Посетить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    setTimeout(function() {
+        let a = prompt("Из какого Вы города?");
+        if (a) {
+            alert(`Приветствуем жителя ${a}! Надеемся, наши предложения вам понравятся. Кашапов Вадим `);
+        }
+    }, 1000);
+</script>
