@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заповедник Шульган-Таш</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background-image: url("fon1.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        /* Размытый задний фон на тон меньше */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("fon1.jpg");
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            opacity: 0.8;
+            z-index: -1;
+        }
+        
+        .glassmorphism {
+            background: linear-gradient(135deg, 
+                        rgba(255, 255, 255, 0.15),
+                        rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+            max-width: 1300px;
+            min-height: 500px;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Левая часть с изображением */
+        .image-section {
+            flex: 0 0 35%;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .image-container {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            margin-bottom: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .image-container:hover img {
+            transform: scale(1.05);
+        }
+        
+        .image-title {
+            color: white;
+            font-size: 22px;
+            font-weight: 600;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            width: 100%;
+        }
+        
+        /* Правая часть с контентом */
+        .content-section {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            max-height: 550px;
+        }
+        
+        /* Стили для скроллбара */
+        .content-section::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .content-section::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .content-section::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+        
+        .card__title {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .card__title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            border-radius: 3px;
+        }
+        
+        .content-section h2.card__title {
+            font-size: 24px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h2.card__title::after {
+            width: 40px;
+            height: 2px;
+        }
+        
+        .content-section p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-size: 16px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Декоративные элементы */
+        .glassmorphism::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                        transparent, 
+                        rgba(255, 255, 255, 0.4), 
+                        transparent);
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 1024px) {
+            .glassmorphism {
+                flex-direction: column;
+                max-width: 90%;
+            }
+            
+            .image-section {
+                flex: none;
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding: 20px;
+            }
+            
+            .image-container {
+                max-width: 350px;
+                height: 250px;
+            }
+            
+            .content-section {
+                max-height: 400px;
+                padding: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .glassmorphism {
+                max-width: 95%;
+                border-radius: 20px;
+            }
+            
+            .content-section {
+                padding: 20px;
+            }
+            
+            .card__title {
+                font-size: 24px;
+            }
+            
+            .content-section h2.card__title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="glassmorphism">
+        <div class="image-section">
+            <div class="image-container">
+                <img src="scale_1200.jpg" alt="Шульган-Таш">
+            </div>
+            <div class="image-title">Пещера Шульган-Таш (Капова)</div>
+        </div>
+        
+        <div class="content-section">
+            <h1 class="card__title">Гора Шульган-Таш</h1>
+            <p>Шульган-Таш — государственный природный заповедник в Башкортостане, имеющий федеральный статус. Название происходит от башкирских слов «шульган» (опустился, провалился, исчез) и «таш» (камень).</p>
+            <p>На территории заповедника находится пещера Шульган-Таш (Капова) — одна из самых больших среди многоэтажных карстовых пещер на Урале. Известна наскальной живописью времён палеолита.</p>
+            
+            <h2 class="card__title">География</h2>
+            <p>Заповедник расположен в западных предгорьях Южного Урала, в горно-лесном поясе, в пределах Бурзянского района. Некоторые особенности рельефа: Рельеф образован хаотичным переплетением невысоких (100–300 м) хребтов, расчленённых многочисленными ручьями и речками. С юга и северо-запада территория ограничена каньонообразными долинами рек Белая и Нугуш. Перепад абсолютных высот на территории — от 240 до 700 м, большая часть площади находится на высотах 400–600 м.</p>
+            
+            <h2 class="card__title">История</h2>
+            <p>Заповедник был основан в 1958 году как Прибельский филиал Башкирского государственного заповедника. 16 января 1986 года заповедник был преобразован в самостоятельное учреждение — государственный природный заповедник «Шульган-Таш». 12 июля 2025 года на 47-й сессии Комитета всемирного наследия принято решение о включении российского культурного объекта «Наскальная живопись пещеры Шульган-Таш» в Список всемирного наследия ЮНЕСКО.</p>
+        </div>
+
+    </div>
+</body>
+</html>
