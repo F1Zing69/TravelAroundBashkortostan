@@ -113,6 +113,48 @@
             padding: 40px;
             overflow-y: auto;
             max-height: 550px;
+            position: relative;
+        }
+        
+        /* Кнопка назад */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+        
+        .back-button:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .back-button:active {
+            transform: translateY(0);
+        }
+        
+        .back-button::before {
+            content: '←';
+            font-size: 18px;
+            font-weight: bold;
         }
         
         /* Стили для скроллбара */
@@ -208,6 +250,13 @@
                 max-height: 400px;
                 padding: 30px;
             }
+            
+            .back-button {
+                top: 15px;
+                right: 20px;
+                padding: 8px 16px;
+                font-size: 15px;
+            }
         }
         
         @media (max-width: 768px) {
@@ -226,10 +275,44 @@
             
             .card__title {
                 font-size: 24px;
+                padding-right: 70px; /* Чтобы не перекрывалось кнопкой */
             }
             
             .content-section h2.card__title {
                 font-size: 20px;
+            }
+            
+            .back-button {
+                top: 10px;
+                right: 15px;
+                padding: 6px 14px;
+                font-size: 14px;
+            }
+            
+            .back-button::before {
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .back-button {
+                top: 8px;
+                right: 10px;
+                padding: 5px 12px;
+                font-size: 13px;
+            }
+            
+            .back-button span {
+                display: none; /* Скрываем текст на очень маленьких экранах */
+            }
+            
+            .back-button::before {
+                margin-right: 0;
+                font-size: 16px;
+            }
+            
+            .card__title {
+                padding-right: 50px;
             }
         }
     </style>
@@ -244,6 +327,11 @@
         </div>
         
         <div class="content-section">
+            <!-- Кнопка назад -->
+            <a href="javascript:history.back()" class="back-button">
+                <span>Назад</span>
+            </a>
+            
             <h1 class="card__title">Гора Шульган-Таш</h1>
             <p>Шульган-Таш — государственный природный заповедник в Башкортостане, имеющий федеральный статус. Название происходит от башкирских слов «шульган» (опустился, провалился, исчез) и «таш» (камень).</p>
             <p>На территории заповедника находится пещера Шульган-Таш (Капова) — одна из самых больших среди многоэтажных карстовых пещер на Урале. Известна наскальной живописью времён палеолита.</p>
@@ -254,7 +342,6 @@
             <h2 class="card__title">История</h2>
             <p>Заповедник был основан в 1958 году как Прибельский филиал Башкирского государственного заповедника. 16 января 1986 года заповедник был преобразован в самостоятельное учреждение — государственный природный заповедник «Шульган-Таш». 12 июля 2025 года на 47-й сессии Комитета всемирного наследия принято решение о включении российского культурного объекта «Наскальная живопись пещеры Шульган-Таш» в Список всемирного наследия ЮНЕСКО.</p>
         </div>
-
     </div>
 </body>
 </html>
